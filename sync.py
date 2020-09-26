@@ -18,7 +18,7 @@ for repo in user.get_starred():
     else:
         print(repo.full_name, "already exists as", existing[repo.full_name].full_name)
         subprocess.run("git clone %s %s" % (existing[repo.full_name].clone_url, repo.full_name), shell=True, check=True)
-        upstream = existing[repo.full_name].parent.clone_url.replace("://", "://cugu:" + os.environ['API_KEY'])
+        upstream = existing[repo.full_name].parent.clone_url.replace("://", "://cugu:" + os.environ['API_KEY'] + "@")
         subprocess.run("git remote add upstream %s" % upstream, shell=True, check=True, cwd=repo.full_name)
         subprocess.run("git fetch upstream", shell=True, check=True, cwd=repo.full_name)
         subprocess.run("git merge upstream/master", shell=True, check=True, cwd=repo.full_name)

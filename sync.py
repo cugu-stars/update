@@ -13,8 +13,9 @@ existing = {repo.parent.full_name: repo for repo in organization.get_repos() if 
 
 for repo in user.get_starred():
     if repo.full_name not in existing:
-        print("Create fork", repo.full_name)
-        organization.create_fork(repo)
+        if not repo.private:
+            print("Create fork", repo.full_name)
+            organization.create_fork(repo)
     else:
         print(repo.full_name, "already exists as", existing[repo.full_name].full_name)
         clone_url = existing[repo.full_name].clone_url.replace("://", "://cugu:" + os.environ['API_KEY'] + "@")

@@ -9,7 +9,7 @@ g = Github(os.environ['API_KEY'])
 user = g.get_user()
 
 organization = g.get_organization("dfir-backup")
-existing = {repo.parent.full_name: repo for repo in organization.get_repos()}
+existing = {repo.parent.full_name: repo for repo in organization.get_repos() if repo.fork}
 
 for repo in user.get_starred():
     if repo.full_name not in existing:

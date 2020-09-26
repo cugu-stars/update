@@ -22,5 +22,7 @@ for repo in user.get_starred():
         subprocess.run("git clone %s %s" % (clone_url, repo.full_name), shell=True, check=True)
         subprocess.run("git remote add upstream %s" % existing[repo.full_name].parent.clone_url, shell=True, check=True, cwd=repo.full_name)
         subprocess.run("git fetch upstream", shell=True, check=True, cwd=repo.full_name)
+        subprocess.run('git config --global user.email "git@jonasplum.de"', shell=True, check=True, cwd=repo.full_name)
+        subprocess.run('git config --global user.name "Jonas Plum"', shell=True, check=True, cwd=repo.full_name)
         subprocess.run("git merge upstream/master", shell=True, check=True, cwd=repo.full_name)
         subprocess.run("git push", shell=True, check=True, cwd=repo.full_name)

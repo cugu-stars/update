@@ -24,5 +24,9 @@ for repo in user.get_starred():
         subprocess.run("git fetch upstream", shell=True, check=True, cwd=repo.full_name)
         subprocess.run('git config --global user.email "git@jonasplum.de"', shell=True, check=True, cwd=repo.full_name)
         subprocess.run('git config --global user.name "Jonas Plum"', shell=True, check=True, cwd=repo.full_name)
-        subprocess.run("git merge upstream/%s" % existing[repo.full_name].default_branch, shell=True, check=True, cwd=repo.full_name)
-        subprocess.run("git push", shell=True, check=True, cwd=repo.full_name)
+        try:
+            subprocess.run("git merge upstream/%s" % existing[repo.full_name].default_branch, shell=True, check=True, cwd=repo.full_name)
+            subprocess.run("git push", shell=True, check=True, cwd=repo.full_name)
+        except Exception as e:
+            raise Exception("Could not merge and push %s: %s" % (repo.full_name, e))
+
